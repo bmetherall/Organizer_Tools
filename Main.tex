@@ -3,33 +3,26 @@
 % Load packages
 \usepackage{geometry}
 \usepackage{tikz}
-\usepackage{calc}
 \usepackage{array}
-\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}} % Used for centring table
 
-\pagenumbering{gobble} % Suppress page numbers
-
-
-% Define properties
+% User definable properties
 \def\width{85.7mm} % Width of name tag
 \def\height{60.3mm} % Height of name tag
 \def\crosssize{1.5mm} % Size of marks on the corners of the name tags, set to 0 to remove
 \def\comp{Cubing in the 6ix 2019} % Competition name
 \def\url{cubecomps.com/live.php?cid=4614} % URL of live results
 
-
-\def\cardheight{\paperheight/2-0.1mm}
-\def\cardwidth{\paperwidth/2}
-
-\def\top{\cardheight-52.5mm}
-\tikzstyle{centre}=[anchor=south west,minimum height=10mm,minimum width=10mm,yshift=-0.5ex]
-
-% Define page margins
-%\newgeometry{left=(\paperwidth - \width - \width)/2, right=(\paperwidth - \width - \width)/2, top=0.5in, bottom=0.5in}
+% Internal properties
+\newcounter{tagnum} % Counter for left/right position
+\def\pagereset{\newpage\setcounter{tagnum}{0}}
 \newgeometry{margin=0.5in}
 \setlength\parindent{0pt}
-
-\newcounter{tagnum}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}} % Used for centring table
+\pagenumbering{gobble} % Suppress page numbers
+\def\cardheight{\paperheight/2-0.1mm} % Scorecard height
+\def\cardwidth{\paperwidth/2} % Scorecard width
+\def\top{\cardheight-52.5mm} % Placement of results table
+\tikzstyle{centre}=[anchor=south west,minimum height=10mm,minimum width=10mm,yshift=-0.5ex]
 
 % Define command for event images
 \newcommand*{\img}[1]{%
@@ -50,6 +43,7 @@
 
 % Draw name tags
 \newcommand\nametag[3]{%
+	% Arguments: Name, Role, WCAID
 	\begin{tikzpicture}
 		\draw [white] (0,0) rectangle (\width,\height); % Define size
 
@@ -71,7 +65,8 @@
 }
 
 % Draw groups
-\newcommand\groups[6]{%
+\newcommand\groups[2]{%
+	%Arguments: Name, Groups (formatted to populate the table)
 	\begin{tikzpicture}
 		\draw [white] (0,0) rectangle (\width,\height); % Define size
 
@@ -83,8 +78,8 @@
 
 		% Place details
 		\node[anchor=east] at (\width-5mm,\height-5mm) {\footnotesize \comp}; % Competition name
-		\node at (\width/2,5mm) {\footnotesize \url}; % Competitor's name
-		\node[anchor=west] at (5mm,\height-5mm) {\footnotesize #1}; % Live results
+		\node at (\width/2,5mm) {\footnotesize \url}; % Live results
+		\node[anchor=west] at (5mm,\height-5mm) {\footnotesize #1}; % Competitor's name
 		% Table of groups
 		\node at (\width/2,\height/2) {\makebox[0mm]{
 			\begin{tabular}{P{3cm}P{3cm}}
@@ -100,6 +95,8 @@
 
 % Draw score cards
 \newcommand\scorecard[7][]{%
+	% Optional Argument: Defines type of scorecard (empty: 5 attempts. not empty: 3 attempts)
+	% Arguments: Name, Cubecomps ID, Event, Cutoff, Round, Group
 	\begin{tikzpicture}
 		\draw [white] (0,0) rectangle (\cardwidth,\cardheight); % Define size
 		\draw [rounded corners=7.5mm,thick] (3mm,3mm) rectangle (\cardwidth-3mm,\cardheight-3mm); % Draw outline
@@ -110,7 +107,7 @@
 		\draw (0,\cardheight-\crosssize) -- (0,\cardheight) -- (\crosssize,\cardheight);
 		\draw (\cardwidth-\crosssize,\cardheight) -- (\cardwidth,\cardheight) -- (\cardwidth,\cardheight-\crosssize);
 
-		% If optional argument is empty: 5 attempts. Else: 3 attempts.
+		% Define variables based on type of scorecard
 		\ifx&#1& \gdef\maxnum{5} \gdef\cutoffnum{2} \gdef\cutoffshift{12.5mm} \else \gdef\maxnum{3} \gdef\cutoffnum{1} \gdef\cutoffshift{0mm} \fi
 
 		% Results table
@@ -171,28 +168,21 @@
 \nametag{Brady Metherall}{ORGANIZER}{2009METH01}%
 \nametag{Jon Esparaz}{ORGANIZER}{2011ESPA01}%
 
-\newpage
+\pagereset
 
-\setcounter{tagnum}{0}
+\groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}%
+\groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}%
+\groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}%
+\groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}%
+\groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}%
+\groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}%
 
-\groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}{}{3}{5}{4}%
-%\groups{Jon Esparaz}{3}{4}{7}{1}{2}%
-%\groups{Brady Metherall}{1}{1}{3}{5}{4}%
-%\groups{Jon Esparaz}{3}{4}{7}{1}{2}%
-%\groups{Brady Metherall}{1}{1}{3}{5}{4}%
-%\groups{Jon Esparaz}{3}{4}{7}{1}{2}%
-%\groups{Brady Metherall}{1}{1}{3}{5}{4}%
-%\groups{Jon Esparaz}{3}{4}{7}{1}{2}%
-
-\newpage
-
-\setcounter{tagnum}{0}
+\pagereset
 
 \newgeometry{margin=0in}
 
 \scorecard{Brady Metherall}{45}{5$\times$5$\times$5 Blindfolded}{2:00}{2}{3}%
 \scorecard{Brady Metherall}{}{}{}{}{}%
-
 \scorecard[1]{}{}{5$\times$5$\times$5 Cube}{0:30}{3}{}%
 \scorecard[1]{}{}{5$\times$5$\times$5 Cube}{}{3}{}%
 
