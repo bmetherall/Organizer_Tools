@@ -1,0 +1,194 @@
+\documentclass[12pt]{article}
+
+% Load packages
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{calc}
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}} % Used for centring table
+
+\pagenumbering{gobble} % Suppress page numbers
+
+
+% Define properties
+\def\width{85.7mm} % Width of name tag
+\def\height{60.3mm} % Height of name tag
+\def\crosssize{1.5mm} % Size of marks on the corners of the name tags, set to 0 to remove
+\def\comp{Cubing in the 6ix 2019} % Competition name
+\def\url{cubecomps.com/live.php?cid=4614} % URL of live results
+
+
+\def\cardheight{\paperheight/2-0.1mm}
+\def\cardwidth{\paperwidth/2}
+
+\def\start{\cardheight-52.5mm}
+\tikzstyle{centre}=[anchor=south west,minimum height=10mm,minimum width=10mm,yshift=-0.5ex]
+
+% Define page margins
+%\newgeometry{left=(\paperwidth - \width - \width)/2, right=(\paperwidth - \width - \width)/2, top=0.5in, bottom=0.5in}
+\newgeometry{margin=0.5in}
+\setlength\parindent{0pt}
+
+\newcounter{tagnum}
+
+% Define command for event images
+\newcommand*{\img}[1]{%
+        \includegraphics[
+        height=12mm,
+        width=12mm,
+        keepaspectratio,
+        ]{#1}%
+}
+
+% Draw name tags
+\newcommand\nametag[3]{%
+  \begin{tikzpicture}
+    \draw [white] (0,0) rectangle (\width,\height); % Define size
+
+    % Draw cross marks
+    \draw (\crosssize,0) -- (0,0) -- (0,\crosssize);
+    \draw (\width-\crosssize,0) -- (\width,0) -- (\width,\crosssize);
+    \draw (0,\height-\crosssize) -- (0,\height) -- (\crosssize,\height);
+    \draw (\width-\crosssize,\height) -- (\width,\height) -- (\width,\height-\crosssize);
+
+    % Place details
+    \node at (\width/2,50mm) {\bfseries \Large \comp}; % Competition name
+    \node at (\width/2,36mm) {\img{./Icons/333} \img{./Icons/444} \img{./Icons/666} \img{./Icons/777} \img{./Icons/333bf}}; % Event images
+    \node at (\width/2,22mm) {\bfseries \Large #1}; % Competitor's name
+    \node at (\width/2,14mm) {\large #2}; % Role
+    \node at (\width/2,6mm) {\small #3}; % WCAID
+  \end{tikzpicture}%
+  \stepcounter{tagnum}%
+  \ifodd\value{tagnum} {\hspace{-2.9mm}} \else {\\ \vspace{-0.5mm}} \fi
+}
+
+% Draw groups
+\newcommand\groups[6]{%
+  \begin{tikzpicture}
+    \draw [white] (0,0) rectangle (\width,\height); % Define size
+
+    % Draw cross marks
+    \draw (\crosssize,0) -- (0,0) -- (0,\crosssize);
+    \draw (\width-\crosssize,0) -- (\width,0) -- (\width,\crosssize);
+    \draw (0,\height-\crosssize) -- (0,\height) -- (\crosssize,\height);
+    \draw (\width-\crosssize,\height) -- (\width,\height) -- (\width,\height-\crosssize);
+
+    % Place details
+    \node[anchor=east] at (\width-5mm,\height-5mm) {\footnotesize \comp}; % Competition name
+    \node at (\width/2,5mm) {\footnotesize \url}; % Competitor's name
+    \node[anchor=west] at (5mm,\height-5mm) {\footnotesize #1}; % Live results
+    % Table of groups
+    \node at (\width/2,\height/2) {\makebox[0mm]{
+	\begin{tabular}{P{3cm}P{3cm}}
+		\bfseries \large Event & \bfseries \large Group \\ \hline
+		#2
+		\hline
+	\end{tabular}
+    }};
+  \end{tikzpicture}%
+  \stepcounter{tagnum}%
+  \ifodd\value{tagnum} {\hspace{-2.9mm}} \else {\\ \vspace{-0.5mm}} \fi
+}
+
+% Draw score cards
+\newcommand\scorecard[6]{%
+  \begin{tikzpicture}
+    \draw [white] (0,0) rectangle (\cardwidth,\cardheight); % Define size
+
+    % Draw cross marks
+    \draw (\crosssize,0) -- (0,0) -- (0,\crosssize);
+    \draw (\cardwidth-\crosssize,0) -- (\cardwidth,0) -- (\cardwidth,\crosssize);
+    \draw (0,\cardheight-\crosssize) -- (0,\cardheight) -- (\crosssize,\cardheight);
+    \draw (\cardwidth-\crosssize,\cardheight) -- (\cardwidth,\cardheight) -- (\cardwidth,\cardheight-\crosssize);
+
+    % 5 Solves
+    \foreach \i in {1,...,5}{
+      \ifx&#4& \def\step{0mm} \else \ifnum\i>2 \def\step{3mm} \else\def\step{0mm} \fi \fi
+      \draw (17mm,\start-\i*12.5mm-\step) rectangle +(80mm,10mm);
+      \draw (27mm,\start-\i*12.5mm-\step) -- +(0mm,10mm);
+      \draw (77mm,\start-\i*12.5mm-\step) -- +(0mm,10mm);
+      \draw (87mm,\start-\i*12.5mm-\step) -- +(0mm,10mm);
+      \node at (12mm,\start-\i*12.5mm+5mm-\step) {\bfseries \Large \i};
+    }
+    % Extra
+    \draw (17mm,\start-6*12.5mm-5mm) rectangle +(80mm,10mm);
+    \draw (27mm,\start-6*12.5mm-5mm) -- +(0mm,10mm);
+    \draw (77mm,\start-6*12.5mm-5mm) -- +(0mm,10mm);
+    \draw (87mm,\start-6*12.5mm-5mm) -- +(0mm,10mm);
+    \node[anchor=north] at (12mm,\start-6*12.5mm) {\bfseries \Large \underline{\hspace{6mm}}};
+
+    \draw (17mm,\start+5mm) rectangle +(80mm,10mm); % Name
+    \draw (17mm,\start+22.5mm) rectangle +(80mm,10mm); % Event
+    \draw (27mm,\start+5mm) -- +(0mm,10mm);
+    \draw (77mm,\start+22.5mm) -- +(0mm,10mm);
+    \draw (87mm,\start+22.5mm) -- +(0mm,10mm);
+    % Labels
+    \node at (22mm,\start) {\strut\footnotesize Scr.};
+    \node at (52mm,\start) {\strut\footnotesize Result};
+    \node at (82mm,\start) {\strut\footnotesize Judge};
+    \node at (92mm,\start) {\strut\footnotesize Comp.};
+    \node at (22mm,\start+35mm) {\strut\footnotesize Event};
+    \node at (92mm,\start+35mm) {\strut\footnotesize Group};
+    \node at (82mm,\start+35mm) {\strut\footnotesize Round};
+    \node at (22mm,\start+17.5mm) {\strut\footnotesize ID};
+    \node at (34.5mm,\start+17.5mm) {\strut\footnotesize Name};
+    \node[anchor=west] at (20mm,\start-5*12.5mm-5mm) {\strut\footnotesize Extra Attempt};
+
+    \node[centre] at (27mm,\start+5mm) {\strut\Large #1}; % Name
+    \node[centre] at (17mm,\start+5mm) {\strut\Large #2}; % ID
+    \node[centre] at (17mm,\start+22.5mm) {\strut\Large #3}; % Event
+    \node[centre] at (77mm,\start+22.5mm) {\strut\Large #5}; % Round
+    \node[centre] at (87mm,\start+22.5mm) {\strut\Large #6}; % Group
+
+    \ifx&#4& \else%
+      \draw[dashed] (7mm,\start-2*12.5mm-1.25mm-1.5mm) -- +(94mm,0mm) node[pos=0.5,fill=white] {\footnotesize Cutoff: #4};
+    \fi
+    
+    % Place details
+    \node at (\cardwidth/2,\cardheight-10mm) {\bfseries \Large \comp}; % Competition name
+
+  \end{tikzpicture}%
+  \stepcounter{tagnum}%
+  \ifodd\value{tagnum} {\hspace{-2.9mm}} \else {\\ \vspace{-0.5mm}} \fi
+}
+
+\begin{document}
+\sffamily
+\centering
+
+\nametag{Brady Metherall}{ORGANIZER}{2009METH01}%
+\nametag{Jon Esparaz}{ORGANIZER}{2011ESPA01}%
+\nametag{Abdullah Gulab}{DELEGATE}{2014GULA02}%
+\nametag{Ethan Erez}{COMPETITOR}{2017EREZ01}%
+\nametag{Aimee Esparaz}{STAFF}{}%
+\nametag{Aimee Esparaz}{STAFF}{}%
+\nametag{Brady Metherall}{ORGANIZER}{2009METH01}%
+\nametag{Jon Esparaz}{ORGANIZER}{2011ESPA01}%
+
+\newpage
+
+\setcounter{tagnum}{0}
+
+\groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}{}{3}{5}{4}%
+%\groups{Jon Esparaz}{3}{4}{7}{1}{2}%
+%\groups{Brady Metherall}{1}{1}{3}{5}{4}%
+%\groups{Jon Esparaz}{3}{4}{7}{1}{2}%
+%\groups{Brady Metherall}{1}{1}{3}{5}{4}%
+%\groups{Jon Esparaz}{3}{4}{7}{1}{2}%
+%\groups{Brady Metherall}{1}{1}{3}{5}{4}%
+%\groups{Jon Esparaz}{3}{4}{7}{1}{2}%
+
+\newpage
+
+\setcounter{tagnum}{0}
+
+\newgeometry{margin=0in}
+
+\scorecard{Brady Metherall}{45}{5$\times$5$\times$5 Blindfolded}{2:00}{2}{3}%
+\scorecard{Brady Metherall}{}{}{}{}{}%
+
+\scorecard{}{}{5$\times$5$\times$5 Cube}{3:02}{3}{}%
+\scorecard{}{}{5$\times$5$\times$5 Cube}{2:15}{3}{}%
+
+
+\end{document}
