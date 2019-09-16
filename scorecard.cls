@@ -97,7 +97,7 @@
 		\node[anchor=west] at (5mm,\@tagheight-5mm) {\footnotesize #1}; % Competitor's name
 		% Table of groups
 		\node at (\@tagwidth/2,\@tagheight/2) {\makebox[0mm]{
-			\begin{tabular}{P{3cm}P{3cm}}
+			\begin{tabular}{P{4cm}P{2cm}}
 			\bfseries \large Event & \bfseries \large Group \\ \hline
 			#2
 			\hline
