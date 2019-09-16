@@ -1,164 +1,14 @@
-\documentclass[12pt]{article}
-
-% Load packages
-\usepackage{geometry}
-\usepackage{tikz}
-\usepackage{array}
+\documentclass{scorecard}
 
 % User definable properties
-\def\width{85.7mm} % Width of name tag
-\def\height{60.3mm} % Height of name tag
-\def\crosssize{1.5mm} % Size of marks on the corners of the name tags, set to 0 to remove
-\def\comp{Cubing in the 6ix 2019} % Competition name
-\def\url{cubecomps.com/live.php?cid=4614} % URL of live results
-
-% Internal properties
-\newcounter{tagnum} % Counter for left/right position
-\def\pagereset{\newpage\setcounter{tagnum}{0}}
-\newgeometry{margin=0.5in}
-\setlength\parindent{0pt}
-\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}} % Used for centring table
-\pagenumbering{gobble} % Suppress page numbers
-\def\cardheight{\paperheight/2-0.1mm} % Scorecard height
-\def\cardwidth{\paperwidth/2} % Scorecard width
-\def\top{\cardheight-52.5mm} % Placement of results table
-\tikzstyle{centre}=[anchor=south west,minimum height=10mm,minimum width=10mm,yshift=-0.5ex]
-
-% Define command for event images
-\newcommand*{\img}[1]{%
-	\includegraphics[
-	height=12mm,
-	width=12mm,
-	keepaspectratio,
-	]{#1}%
-}
-
-% Draw boxes for results
-\newcommand\resultsbox[1]{%
-	\draw (17mm,#1) rectangle +(80mm,10mm); % Rectangle
-	\draw (27mm,#1) -- +(0mm,10mm); % Left divider
-	\draw (77mm,#1) -- +(0mm,10mm); % Mid divider
-	\draw (87mm,#1) -- +(0mm,10mm); % Right divider
-}
-
-% Draw name tags
-\newcommand\nametag[3]{%
-	% Arguments: Name, Role, WCAID
-	\begin{tikzpicture}
-		\draw [white] (0,0) rectangle (\width,\height); % Define size
-
-		% Draw cross marks
-		\draw (\crosssize,0) -- (0,0) -- (0,\crosssize);
-		\draw (\width-\crosssize,0) -- (\width,0) -- (\width,\crosssize);
-		\draw (0,\height-\crosssize) -- (0,\height) -- (\crosssize,\height);
-		\draw (\width-\crosssize,\height) -- (\width,\height) -- (\width,\height-\crosssize);
-
-		% Place details
-		\node at (\width/2,50mm) {\bfseries \Large \comp}; % Competition name
-		\node at (\width/2,36mm) {\img{./Icons/333} \img{./Icons/444} \img{./Icons/666} \img{./Icons/777} \img{./Icons/333bf}}; % Event images
-		\node at (\width/2,22mm) {\bfseries \Large #1}; % Competitor's name
-		\node at (\width/2,14mm) {\large #2}; % Role
-		\node at (\width/2,6mm) {\small #3}; % WCAID
-	\end{tikzpicture}%
-	\stepcounter{tagnum}%
-	\ifodd\value{tagnum} {\hspace{-2.9mm}} \else {\\ \vspace{-0.5mm}} \fi
-}
-
-% Draw groups
-\newcommand\groups[2]{%
-	%Arguments: Name, Groups (formatted to populate the table)
-	\begin{tikzpicture}
-		\draw [white] (0,0) rectangle (\width,\height); % Define size
-
-		% Draw cross marks
-		\draw (\crosssize,0) -- (0,0) -- (0,\crosssize);
-		\draw (\width-\crosssize,0) -- (\width,0) -- (\width,\crosssize);
-		\draw (0,\height-\crosssize) -- (0,\height) -- (\crosssize,\height);
-		\draw (\width-\crosssize,\height) -- (\width,\height) -- (\width,\height-\crosssize);
-
-		% Place details
-		\node[anchor=east] at (\width-5mm,\height-5mm) {\footnotesize \comp}; % Competition name
-		\node at (\width/2,5mm) {\footnotesize \url}; % Live results
-		\node[anchor=west] at (5mm,\height-5mm) {\footnotesize #1}; % Competitor's name
-		% Table of groups
-		\node at (\width/2,\height/2) {\makebox[0mm]{
-			\begin{tabular}{P{3cm}P{3cm}}
-			\bfseries \large Event & \bfseries \large Group \\ \hline
-			#2
-			\hline
-			\end{tabular}
-		}};
-	\end{tikzpicture}%
-	\stepcounter{tagnum}%
-	\ifodd\value{tagnum} {\hspace{-2.9mm}} \else {\\ \vspace{-0.5mm}} \fi
-}
-
-% Draw score cards
-\newcommand\scorecard[7][]{%
-	% Optional Argument: Defines type of scorecard (empty: 5 attempts. not empty: 3 attempts)
-	% Arguments: Name, Cubecomps ID, Event, Cutoff, Round, Group
-	\begin{tikzpicture}
-		\draw [white] (0,0) rectangle (\cardwidth,\cardheight); % Define size
-		\draw [rounded corners=7.5mm,thick] (3mm,3mm) rectangle (\cardwidth-3mm,\cardheight-3mm); % Draw outline
-
-		% Draw cross marks
-		\draw (\crosssize,0) -- (0,0) -- (0,\crosssize);
-		\draw (\cardwidth-\crosssize,0) -- (\cardwidth,0) -- (\cardwidth,\crosssize);
-		\draw (0,\cardheight-\crosssize) -- (0,\cardheight) -- (\crosssize,\cardheight);
-		\draw (\cardwidth-\crosssize,\cardheight) -- (\cardwidth,\cardheight) -- (\cardwidth,\cardheight-\crosssize);
-
-		% Define variables based on type of scorecard
-		\ifx&#1& \gdef\maxnum{5} \gdef\cutoffnum{2} \gdef\cutoffshift{12.5mm} \else \gdef\maxnum{3} \gdef\cutoffnum{1} \gdef\cutoffshift{0mm} \fi
-
-		% Results table
-		\foreach \i in {1,...,\maxnum}{
-			\ifx&#5& \gdef\shift{0mm} \else \ifnum\i>\cutoffnum \gdef\shift{3mm} \else\gdef\shift{0mm} \fi \fi
-			\resultsbox{\top-\i*12.5mm-\shift} % Boxes
-			\node at (12mm,\top-\i*12.5mm+5mm-\shift) {\bfseries \Large \i}; % Solve num
-		}
-		% Extra result
-		\resultsbox{\top-\maxnum*12.5mm-16.5mm-\shift} % Box
-		\node[anchor=north] at (12mm,\top-\maxnum*12.5mm-16.5mm-\shift) {\bfseries \Large \underline{\hspace{6mm}}}; % Attempt num
-		\draw[dashed] (7mm,\top-\maxnum*12.5mm-3.25mm-\shift) -- +(94mm,0mm) node[pos=0.5,fill=white] {\footnotesize Extra Attempt---Delegate: \underline{\hspace{6mm}}}; % Label
-		%Cutoff label
-		\ifx&#5& \else%
-			\draw[dashed] (7mm,\top-14mm-1.25mm-\cutoffshift) -- +(94mm,0mm) node[pos=0.5,fill=white] {\footnotesize Cutoff: #5};
-		\fi
-
-		% Header
-		\draw (17mm,\top+5mm) rectangle +(80mm,10mm); % Top box
-		\draw (17mm,\top+22.5mm) rectangle +(80mm,10mm); % Lower box
-		\draw (27mm,\top+22.5mm) -- +(0mm,10mm); % Left divider
-		\draw (77mm,\top+5mm) -- +(0mm,10mm); % Mid divider
-		\draw (87mm,\top+5mm) -- +(0mm,10mm); % Right divider
-		% Labels
-		\node at (22mm,\top) {\strut\footnotesize Scr.}; % Scrambler signature
-		\node at (52mm,\top) {\strut\footnotesize Result}; % Result
-		\node at (82mm,\top) {\strut\footnotesize Judge}; % Judge signature
-		\node at (92mm,\top) {\strut\footnotesize Comp.}; % Competitor signature
-		\node at (22mm,\top+17.5mm) {\strut\footnotesize Event}; % Event name
-		\node at (92mm,\top+17.5mm) {\strut\footnotesize Group}; % Group number
-		\node at (82mm,\top+17.5mm) {\strut\footnotesize Round}; % Round number
-		\node at (22mm,\top+35mm) {\strut\footnotesize ID}; % Cubecomps ID
-		\node at (34.5mm,\top+35mm) {\strut\footnotesize Name}; % Competitor name
-		% Populate data
-		\node[centre] at (27mm,\top+22.5mm) {\strut\Large #2}; % Competitor name
-		\node[centre] at (17mm,\top+22.5mm) {\strut\Large #3}; % Cubecomps ID
-		\node[centre] at (17mm,\top+5mm) {\strut\Large #4}; % Event name
-		\node[centre] at (77mm,\top+5mm) {\strut\Large #6}; % Round number
-		\node[centre] at (87mm,\top+5mm) {\strut\Large #7}; % Group number
-		\node at (\cardwidth/2,\cardheight-10mm) {\bfseries \Large \comp}; % Competition name
-
-	\end{tikzpicture}%
-	\stepcounter{tagnum}%
-	\ifodd\value{tagnum} {\hspace{-2.9mm}} \else {\\ \vspace{-0.5mm}} \fi
-}
-
+\comp{Cubing in the 6ix 2019} % Competition name
+\url{testing} % URL of live results
 
 \begin{document}
 \sffamily
 \centering
 
+% \nametag{NAME}{ROLE}{WCAID}%
 \nametag{Brady Metherall}{ORGANIZER}{2009METH01}%
 \nametag{Jon Esparaz}{ORGANIZER}{2011ESPA01}%
 \nametag{Abdullah Gulab}{DELEGATE}{2014GULA02}%
@@ -170,6 +20,7 @@
 
 \pagereset
 
+% \groups{NAME}{GROUPS (formatted as a table)}%
 \groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}%
 \groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}%
 \groups{Brady Metherall}{3x3 Cube & 2 \\ 5$\times$5 Cube & 6 \\ 7x7 Cube & 3 \\}%
@@ -180,11 +31,12 @@
 \pagereset
 
 \newgeometry{margin=0in}
+\crosssize{0mm} % Remove cross marks for score cards
 
-\scorecard{Brady Metherall}{45}{5$\times$5$\times$5 Blindfolded}{2:00}{2}{3}%
-\scorecard{Brady Metherall}{}{}{}{}{}%
-\scorecard[1]{}{}{5$\times$5$\times$5 Cube}{0:30}{3}{}%
+% \scorecard[EVENT FLAG (any nonempty string will create a score card with only three times)]{NAME}{CUBECOMPS ID}{EVENT}{CUTOFF}{ROUND}{GROUP}%
+\scorecard{Brady Metherall}{45}{5$\times$5$\times$5}{2:00}{1}{3}%
+\scorecard{Jon Esparaz}{12}{Pyraminx}{}{1}{2}%
+\scorecard[1]{Abdullah Gulab}{}{7$\times$7$\times$7 Cube}{5:00}{1}{2}%
 \scorecard[1]{}{}{5$\times$5$\times$5 Cube}{}{3}{}%
-
 
 \end{document}
