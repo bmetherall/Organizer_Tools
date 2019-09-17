@@ -1,8 +1,25 @@
 import numpy as np
 import pandas as pd
 
+def write_nametags(df, f_name = 'NameTags.tex'):
+	# Write the data for the name tags formatted for the scorecard class
+	np.savetxt(f_name, (r'\nametag{' + df['Name'].map(str) + '}{COMPETITOR}{' + df['WCA ID'] + '}%').values, fmt = '%s')
+
+def clean_cutoff(ds):
+	ds = ds.str.replace('1 attempt to get < ', '')
+	ds = ds.str.replace('2 attempts to get < ', '')
+	ds = ds.str.replace('\.00', '')
+	return ds
+
+def get_cutoffs(df):
+	cutoffs = df[['Event', 'Cutoff']].copy()
+	cutoffs.replace('', np.nan, inplace = True)
+	cutoffs.dropna(how = 'all', inplace = True)
+	cutoffs.replace(np.nan, '', inplace = True) # There's probably a better way for this too
+	return np.array(clean_cutoff(cutoffs['Cutoff']))
+
 # Create groups for one event
-def group(df, g_size = 16):
+def event_group(df, g_size = 16):
 	# df should be two columns, Name and an eventID
 	df_old = df
 	df = df[df.iloc[:, 1] == 1] # Extract only competitors in event
@@ -16,6 +33,33 @@ def group(df, g_size = 16):
 		group = np.arange(n) * num_g / n + 1
 	df['Group'] = group.astype(str) # Append column formatted as a string
 	return df_old.merge(df, how = 'left').fillna('') # Return merged groups with old DataFrame, filling blanks with an empty string
+
+def make_groups(df):
+	group_df = df[['Name', 'WCA ID']].copy()
+	# Iterate through columns of registration file to calculate groups for each event
+	for i in list(df)[7:-3]:
+		g_num = event_group(df[['Name', i]])['Group'].map(str)
+		group_df[i] = g_num
+		#tex_groups += (event_dict[i][0] + ' & ' + g_num + ' \\\ ').values
+		#wca_groups += ' ' + g_num + ' |'
+		#wca_header = np.core.defchararray.add(wca_header, [' ' + event_dict[i][1] + ' |', ' :---: |']) # There's got to be an easier way
+	#tex_groups += '}%' # Close the bracket in the string array
+	return group_df
+
+def write_groups(df, tex_f = 'Groups.tex', wca_f = 'Groups.md'):
+	# String array for LaTeX code and WCA website for groups
+	tex_groups = np.array(r'\groups{' + df['Name'].map(str) + '}{')
+	wca_groups = np.array(df['Name'].map(str) + ' |')
+	wca_header = np.array(['Name |', ' --- |'])
+	for i in list(df)[2:]:
+		tex_groups += event_dict[i][0] + ' & ' + df[i].map(str) + ' \\\ '
+		wca_groups += ' ' + df[i].map(str) + ' |'
+		#wca_header += np.array([' ' + event_dict[i][1] + ' |', ' :---: |'])
+		wca_header = np.core.defchararray.add(wca_header, [' ' + event_dict[i][1] + ' |', ' :---: |']) # There's got to be an easier way
+	tex_groups += '}%' # Close the bracket in the string array
+	# Write groups to file
+	np.savetxt(tex_f, tex_groups, fmt = '%s')
+	np.savetxt(wca_f, np.hstack((wca_header, wca_groups)), fmt = '%s')
 
 # Dictionaries to translate event ID to event name
 # First element: LaTeX. Second element: plain text.
@@ -47,30 +91,52 @@ comp = 'Comp2019-registration.csv'
 data = pd.read_csv(comp, delimiter = ',', keep_default_na = False)
 
 # Save a copy of the DataFrame sorted by name
-s_data = data.sort_values(by = ['Name'])
+s_data = data.sort_values(by = ['Name']).copy()
+s_data.reset_index(inplace = True)
 
-# Write the data for the name tags formatted for the scorecard class
-np.savetxt(r'NameTags.tex', (r'\nametag{' + s_data['Name'].map(str) + '}{COMPETITOR}{' + s_data['WCA ID'] + '}%').values, fmt = '%s')
 
-# String array for LaTeX code and WCA website for groups
-tex_groups = np.empty(len(data))
-tex_groups = np.array(r'\groups{' + s_data['Name'].map(str) + '}{')
-wca_groups = np.empty(len(data))
-wca_groups = np.array(s_data['Name'].map(str) + ' |')
-wca_header = np.array(['Name |', ' --- |'])
+write_nametags(s_data)
 
-# Iterate through columns of registration file to calculate groups for each event
-for i in list(data)[6:-3]:
-	# Calculate groups for the event and append to the string array
-	g_num = group(s_data[['Name', i]])['Group'].map(str)
-	tex_groups += (event_dict[i][0] + ' & ' + g_num + ' \\\ ').values
-	wca_groups += ' ' + g_num + ' |'
-	wca_header = np.core.defchararray.add(wca_header, [' ' + event_dict[i][1] + ' |', ' :---: |']) # There's got to be an easier way
-tex_groups += '}%' # Close the bracket in the string array
 
-# Write groups to file
-np.savetxt(r'Groups.tex', tex_groups, fmt = '%s')
-np.savetxt(r'Groups.md', np.hstack((wca_header, wca_groups)), fmt = '%s')
+
+
+
+#group_df = s_data[['Name', 'WCA ID']].copy()
+
+group_df = make_groups(s_data)
+write_groups(group_df)
+
+#print group(s_data[['Name', '777']])
+
+
+
+#group_df.to_csv('test.csv', index = False)
+
+#wca_df = pd.read_html('https://www.worldcubeassociation.org/competitions/Cubinginthe6ix2019#competition-events', keep_default_na = False)[1]
+
+#print get_cutoffs(wca_df)
 
 #% \scorecard[EVENT FLAG (any nonempty string will create a score card with only three times)]{NAME}{CUBECOMPS ID}{EVENT}{CUTOFF}{ROUND}{GROUP}%
 #\scorecard{Brady Metherall}{45}{5$\times$5$\times$5}{2:00}{1}{3}%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
