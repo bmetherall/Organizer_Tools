@@ -1,111 +1,111 @@
 Name | 3x3 Cube | 4x4 Cube | 6x6 Cube | 7x7 Cube | 3x3 Blindfolded |
  --- | :---: | :---: | :---: | :---: | :---: |
-Abdullah Gulab | 2 | 3 | 1 | 2 | 1 |
-Aimee Esparaz | 1 |  |  |  |  |
-Alan Jia | 4 | 3 | 1 |  |  |
-Alex Jung | 5 | 3 |  |  | 2 |
-Alex Ly | 2 |  |  |  |  |
+Abdullah Gulab | 1 | 3 | 1 | 1 | 2 |
+Aimee Esparaz | 2 |  |  |  |  |
+Alan Jia | 7 | 2 | 1 |  |  |
+Alex Jung | 1 | 2 |  |  | 2 |
+Alex Ly | 4 |  |  |  |  |
 Alexandria Lin | 4 |  |  |  |  |
-Alireza Azimi | 2 | 5 |  |  |  |
-Alyssa Esparaz | 2 | 2 |  |  | 1 |
-Andrew Nguyen | 1 |  |  |  | 2 |
-Aris Efstathopoulos | 5 |  |  |  |  |
-Arturo Pico | 2 | 4 |  |  |  |
-Austin Jordan Eng | 2 | 2 |  |  |  |
-Benson Lau | 2 | 2 |  |  | 1 |
-Bill Wang | 1 | 4 | 2 | 2 | 1 |
-Brady Metherall | 7 | 3 | 1 | 1 | 2 |
-Brandon Arnoldo Taylor | 4 | 1 |  |  |  |
-Brendon Acebedo | 3 |  |  |  |  |
-Brennen Lin | 4 | 4 | 2 | 2 | 2 |
-Brian Ignacio | 5 | 5 | 1 |  |  |
-Brice Lan | 1 | 4 |  |  |  |
-Bryan Deng | 6 | 2 |  |  |  |
-Cameron Chern | 4 |  |  |  |  |
-Can Cetin | 5 | 5 | 2 |  | 2 |
-Chen-Pin Sun | 4 | 5 | 2 | 1 | 1 |
-Conor Boucher | 3 | 1 | 2 | 2 |  |
-Daniel Phan | 3 | 2 |  |  | 2 |
-Dave Campbell | 3 | 2 | 2 | 2 |  |
-Dave Deriches | 7 | 2 |  |  |  |
-David Drobner | 2 | 3 | 2 |  |  |
-Easton Pan | 5 |  |  |  |  |
-Elijah Gonzales | 7 | 3 |  |  |  |
-Elio Graceni | 2 |  |  |  |  |
-Emile Compion | 6 | 4 |  |  | 2 |
-Emma Kennedy | 7 | 2 |  |  |  |
-Emmanuel Intac | 6 |  |  |  |  |
-Eric Limeback | 7 | 5 | 1 | 2 | 2 |
-Ethan Coolidge | 2 | 2 | 1 | 2 |  |
-Ethan Erez | 4 | 4 |  |  |  |
+Alireza Azimi | 3 | 4 |  |  |  |
+Alyssa Esparaz | 4 | 2 |  |  | 2 |
+Andrew Nguyen | 1 |  |  |  | 1 |
+Aris Efstathopoulos | 7 |  |  |  |  |
+Arturo Pico | 7 | 4 |  |  |  |
+Austin Jordan Eng | 5 | 3 |  |  |  |
+Benson Lau | 1 | 3 |  |  | 1 |
+Bill Wang | 7 | 4 | 1 | 2 | 1 |
+Brady Metherall | 4 | 3 | 2 | 1 | 2 |
+Brandon Arnoldo Taylor | 3 | 5 |  |  |  |
+Brendon Acebedo | 5 |  |  |  |  |
+Brennen Lin | 3 | 1 | 2 | 1 | 1 |
+Brian Ignacio | 1 | 4 | 1 |  |  |
+Brice Lan | 2 | 5 |  |  |  |
+Bryan Deng | 3 | 2 |  |  |  |
+Cameron Chern | 1 |  |  |  |  |
+Can Cetin | 7 | 3 | 1 |  | 2 |
+Chen-Pin Sun | 5 | 4 | 2 | 2 | 1 |
+Conor Boucher | 7 | 5 | 2 | 2 |  |
+Daniel Phan | 7 | 5 |  |  | 2 |
+Dave Campbell | 2 | 1 | 2 | 2 |  |
+Dave Deriches | 3 | 5 |  |  |  |
+David Drobner | 3 | 5 | 1 |  |  |
+Easton Pan | 2 |  |  |  |  |
+Elijah Gonzales | 2 | 5 |  |  |  |
+Elio Graceni | 1 |  |  |  |  |
+Emile Compion | 5 | 1 |  |  | 1 |
+Emma Kennedy | 6 | 1 |  |  |  |
+Emmanuel Intac | 1 |  |  |  |  |
+Eric Limeback | 7 | 3 | 1 | 1 | 1 |
+Ethan Coolidge | 2 | 3 | 1 | 2 |  |
+Ethan Erez | 5 | 1 |  |  |  |
 Ethan Honest | 5 |  |  |  |  |
-Ethan Nguyen | 5 |  |  |  |  |
-Fatima Gulab | 6 |  |  |  |  |
-Flora Chan | 1 |  |  |  |  |
-Floyd Esparaz | 1 |  |  |  |  |
-Furqan Adeel Choudhry | 3 | 1 |  |  |  |
-Harris Chan | 5 | 3 | 1 |  | 2 |
-Hayley Monson | 3 | 4 |  |  |  |
-Iain So | 2 |  |  |  |  |
-Ian Yeh | 4 | 3 | 1 |  | 1 |
-Ibraheem Ahmed | 1 | 4 | 2 | 2 | 1 |
-Isaac Lau | 2 | 2 |  |  | 1 |
-Ishan Saini | 7 |  |  |  |  |
-Jack Boos | 4 | 4 |  |  |  |
-James Wang | 6 |  |  |  |  |
-Jhansi Tanguturi | 3 |  |  |  |  |
-Jit Parmar | 1 | 1 |  |  | 2 |
-Joaquin Abarca | 6 | 3 | 2 |  | 1 |
-Jonathan Esparaz | 4 | 3 | 1 | 1 | 1 |
-Jonathan Tan Wei Xiat | 7 | 1 | 1 | 2 | 1 |
-Joon Song | 6 | 1 |  |  | 1 |
-Kairui Huang | 6 | 5 |  |  |  |
-Kenneth Yeung | 7 | 1 |  | 2 |  |
-Kevin Jacob Rajesh | 4 | 4 |  |  |  |
-Kieran Savoy | 1 | 2 |  |  | 2 |
+Ethan Nguyen | 1 |  |  |  |  |
+Fatima Gulab | 4 |  |  |  |  |
+Flora Chan | 5 |  |  |  |  |
+Floyd Esparaz | 3 |  |  |  |  |
+Furqan Adeel Choudhry | 6 | 5 |  |  |  |
+Harris Chan | 1 | 2 | 2 |  | 1 |
+Hayley Monson | 2 | 1 |  |  |  |
+Iain So | 4 |  |  |  |  |
+Ian Yeh | 6 | 2 | 2 |  | 1 |
+Ibraheem Ahmed | 1 | 5 | 2 | 1 | 2 |
+Isaac Lau | 4 | 4 |  |  | 2 |
+Ishan Saini | 2 |  |  |  |  |
+Jack Boos | 6 | 2 |  |  |  |
+James Wang | 1 |  |  |  |  |
+Jhansi Tanguturi | 7 |  |  |  |  |
+Jit Parmar | 4 | 5 |  |  | 2 |
+Joaquin Abarca | 3 | 2 | 2 |  | 1 |
+Jonathan Esparaz | 7 | 3 | 2 | 1 | 2 |
+Jonathan Tan Wei Xiat | 6 | 1 | 1 | 2 | 1 |
+Joon Song | 2 | 2 |  |  | 1 |
+Kairui Huang | 6 | 4 |  |  |  |
+Kenneth Yeung | 6 | 4 |  | 2 |  |
+Kevin Jacob Rajesh | 1 | 5 |  |  |  |
+Kieran Savoy | 6 | 1 |  |  | 2 |
 Kuba Bindernagel | 2 |  |  |  |  |
-Kyria Sztainbok | 6 | 1 |  |  | 1 |
-Leo Min-Bedford | 3 | 5 |  |  |  |
-Leo Stewart | 5 | 1 |  |  |  |
-LianCheng Guo | 4 | 4 | 2 | 1 | 1 |
-Louis Cormier | 6 | 1 | 1 | 1 | 2 |
-Lucas Nieuwland | 6 | 5 | 2 | 1 |  |
-Luis Quijano | 1 |  |  |  |  |
-Marco Yang | 6 | 3 | 2 | 1 | 1 |
-Mark Anthony Antao | 2 | 5 |  |  |  |
-Mason Leung | 1 |  |  |  |  |
-Matteo Sorge | 5 |  |  |  |  |
-Matthew Geyko | 4 | 2 |  |  |  |
-Matthew Lee | 5 | 1 | 2 | 1 |  |
-Max Sun | 5 | 4 | 1 | 1 |  |
-Michael Fisher | 7 | 3 | 2 | 1 |  |
-Michael Fung | 1 | 3 |  |  |  |
-Michael Lit | 1 |  |  |  |  |
-Michael Zheng | 4 | 2 |  |  | 2 |
-Neel Shah | 7 | 2 |  |  |  |
-Nicholas Patterson | 3 | 4 | 1 | 2 | 1 |
-Nima Bolourchian | 6 | 1 |  |  | 1 |
-Oliver Ustyanich | 2 |  |  |  |  |
-Owen Wang | 7 |  |  |  |  |
-Pramathaditya Pathak | 6 | 5 |  |  |  |
-Ranran Zhao | 3 |  |  |  |  |
-Ray Vince Ong | 1 | 5 |  |  |  |
-Roan Paone | 5 | 5 | 1 | 2 | 2 |
-Ryan Pin Harry | 2 | 1 | 1 | 1 | 2 |
-Sami Mokatren | 3 | 2 |  |  |  |
-Samuel Lan | 5 |  |  |  |  |
-Sarah Strong | 4 | 1 |  | 1 |  |
-Sebastian Desaulniers | 5 | 1 | 1 |  | 2 |
-Shanglin Ye | 7 | 5 |  |  |  |
-Shreyas Krishna | 4 | 5 |  |  |  |
-Tarandeep Mittal | 6 | 2 |  |  |  |
-Thompson Clarke | 3 | 4 | 2 | 1 | 1 |
-Tin Huang | 3 | 4 |  |  | 2 |
+Kyria Sztainbok | 3 | 2 |  |  | 2 |
+Leo Min-Bedford | 3 | 2 |  |  |  |
+Leo Stewart | 4 | 1 |  |  |  |
+LianCheng Guo | 6 | 2 | 2 | 1 | 1 |
+Louis Cormier | 6 | 4 | 2 | 2 | 1 |
+Lucas Nieuwland | 2 | 5 | 1 | 2 |  |
+Luis Quijano | 6 |  |  |  |  |
+Marco Yang | 5 | 5 | 1 | 1 | 1 |
+Mark Anthony Antao | 2 | 4 |  |  |  |
+Mason Leung | 2 |  |  |  |  |
+Matteo Sorge | 1 |  |  |  |  |
+Matthew Geyko | 5 | 2 |  |  |  |
+Matthew Lee | 7 | 4 | 2 | 2 |  |
+Max Sun | 3 | 1 | 1 | 1 |  |
+Michael Fisher | 7 | 1 | 2 | 1 |  |
+Michael Fung | 6 | 1 |  |  |  |
+Michael Lit | 7 |  |  |  |  |
+Michael Zheng | 2 | 5 |  |  | 2 |
+Neel Shah | 4 | 4 |  |  |  |
+Nicholas Patterson | 3 | 1 | 1 | 1 | 1 |
+Nima Bolourchian | 2 | 3 |  |  | 2 |
+Oliver Ustyanich | 7 |  |  |  |  |
+Owen Wang | 1 |  |  |  |  |
+Pramathaditya Pathak | 5 | 1 |  |  |  |
+Ranran Zhao | 2 |  |  |  |  |
+Ray Vince Ong | 5 | 2 |  |  |  |
+Roan Paone | 4 | 3 | 1 | 2 | 1 |
+Ryan Pin Harry | 3 | 3 | 2 | 1 | 1 |
+Sami Mokatren | 5 | 4 |  |  |  |
+Samuel Lan | 3 |  |  |  |  |
+Sarah Strong | 3 | 3 |  | 1 |  |
+Sebastian Desaulniers | 4 | 2 | 2 |  | 2 |
+Shanglin Ye | 5 | 5 |  |  |  |
+Shreyas Krishna | 4 | 4 |  |  |  |
+Tarandeep Mittal | 7 | 3 |  |  |  |
+Thompson Clarke | 5 | 4 | 1 | 2 | 2 |
+Tin Huang | 4 | 4 |  |  | 2 |
 Vincent Ren | 6 |  |  |  |  |
-William Fehr | 3 | 3 |  |  |  |
-William Hu | 7 | 4 |  |  | 2 |
-Yair Korokhov | 3 |  |  |  |  |
-Yiming Lu | 7 |  |  |  |  |
-Yusuf Sheikh | 1 | 1 | 2 | 2 | 1 |
-Yuxuan Li | 1 | 5 |  |  |  |
-Zhivko Radkov Dimitrov | 7 | 3 |  |  |  |
+William Fehr | 6 | 2 |  |  |  |
+William Hu | 4 | 1 |  |  | 1 |
+Yair Korokhov | 4 |  |  |  |  |
+Yiming Lu | 5 |  |  |  |  |
+Yusuf Sheikh | 6 | 3 | 1 | 2 | 2 |
+Yuxuan Li | 1 | 1 |  |  |  |
+Zhivko Radkov Dimitrov | 6 | 3 |  |  |  |

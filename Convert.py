@@ -5,18 +5,21 @@ def write_nametags(df, f_name = 'NameTags.tex'):
 	# Write the data for the name tags formatted for the scorecard class
 	np.savetxt(f_name, (r'\nametag{' + df['Name'].map(str) + '}{COMPETITOR}{' + df['WCA ID'] + '}%').values, fmt = '%s')
 
-def clean_cutoff(ds):
-	ds = ds.str.replace('1 attempt to get < ', '')
-	ds = ds.str.replace('2 attempts to get < ', '')
-	ds = ds.str.replace('\.00', '')
-	return ds
-
-def get_cutoffs(df):
-	cutoffs = df[['Event', 'Cutoff']].copy()
-	cutoffs.replace('', np.nan, inplace = True)
-	cutoffs.dropna(how = 'all', inplace = True)
-	cutoffs.replace(np.nan, '', inplace = True) # There's probably a better way for this too
-	return np.array(clean_cutoff(cutoffs['Cutoff']))
+def write_groups(df, tex_f = 'Groups.tex', wca_f = 'Groups.md', csv_f = 'Groups.csv'):
+	# String array for LaTeX code and WCA website for groups
+	tex_groups = np.array(r'\groups{' + df['Name'].map(str) + '}{')
+	wca_groups = np.array(df['Name'].map(str) + ' |')
+	wca_header = np.array(['Name |', ' --- |'])
+	for i in list(df)[2:]:
+		tex_groups += event_dict[i][0] + ' & ' + df[i].map(str) + ' \\\ '
+		wca_groups += ' ' + df[i].map(str) + ' |'
+		#wca_header += np.array([' ' + event_dict[i][1] + ' |', ' :---: |'])
+		wca_header = np.core.defchararray.add(wca_header, [' ' + event_dict[i][1] + ' |', ' :---: |']) # There's got to be an easier way
+	tex_groups += '}%' # Close the bracket in the string array
+	# Write groups to files
+	np.savetxt(tex_f, tex_groups, fmt = '%s')
+	np.savetxt(wca_f, np.hstack((wca_header, wca_groups)), fmt = '%s')
+	df.to_csv(csv_f, index = False)
 
 # Create groups for one event
 def event_group(df, g_size = 16):
@@ -35,31 +38,63 @@ def event_group(df, g_size = 16):
 	return df_old.merge(df, how = 'left').fillna('') # Return merged groups with old DataFrame, filling blanks with an empty string
 
 def make_groups(df):
-	group_df = df[['Name', 'WCA ID']].copy()
+	group_df = df[['index', 'Name']].copy()
 	# Iterate through columns of registration file to calculate groups for each event
 	for i in list(df)[7:-3]:
 		g_num = event_group(df[['Name', i]])['Group'].map(str)
 		group_df[i] = g_num
-		#tex_groups += (event_dict[i][0] + ' & ' + g_num + ' \\\ ').values
-		#wca_groups += ' ' + g_num + ' |'
-		#wca_header = np.core.defchararray.add(wca_header, [' ' + event_dict[i][1] + ' |', ' :---: |']) # There's got to be an easier way
-	#tex_groups += '}%' # Close the bracket in the string array
 	return group_df
 
-def write_groups(df, tex_f = 'Groups.tex', wca_f = 'Groups.md'):
-	# String array for LaTeX code and WCA website for groups
-	tex_groups = np.array(r'\groups{' + df['Name'].map(str) + '}{')
-	wca_groups = np.array(df['Name'].map(str) + ' |')
-	wca_header = np.array(['Name |', ' --- |'])
+def clean_cutoff(ds):
+	ds = ds.str.replace('1 attempt to get < ', '')
+	ds = ds.str.replace('2 attempts to get < ', '')
+	ds = ds.str.replace('\.00', '')
+	return ds
+
+def get_cutoffs(df):
+	cutoffs = df[['Event', 'Cutoff']].copy()
+	cutoffs.replace('', np.nan, inplace = True)
+	cutoffs.dropna(how = 'all', inplace = True)
+	cutoffs.replace(np.nan, '', inplace = True) # There's probably a better way for this too
+	return np.array(clean_cutoff(cutoffs['Cutoff']))
+
+def write_scorecards(df, cutoffs, f_name = 'Cards.tex'):
+	f = open(f_name, 'wb')
+	f.close()
+	f = open(f_name, 'ab')
+	count = 0
 	for i in list(df)[2:]:
-		tex_groups += event_dict[i][0] + ' & ' + df[i].map(str) + ' \\\ '
-		wca_groups += ' ' + df[i].map(str) + ' |'
-		#wca_header += np.array([' ' + event_dict[i][1] + ' |', ' :---: |'])
-		wca_header = np.core.defchararray.add(wca_header, [' ' + event_dict[i][1] + ' |', ' :---: |']) # There's got to be an easier way
-	tex_groups += '}%' # Close the bracket in the string array
-	# Write groups to file
-	np.savetxt(tex_f, tex_groups, fmt = '%s')
-	np.savetxt(wca_f, np.hstack((wca_header, wca_groups)), fmt = '%s')
+		if i != '333fm':
+			curr_group = df[df.iloc[:, count + 2] != ''].copy()
+			curr_group.sort_values(by = [i, 'Name'], inplace = True)
+			if i in ['666', '777', '333bf', '333mbf', '444bf', '555bf']:
+				cards = np.array(r'\scorecard[1]{' + curr_group['Name'].map(str) + '}{' + (curr_group['index'] + 1).map(str) + '}{' + event_dict[i][0] + '}{' + cutoffs[count] + '}{1}{' + curr_group[i] + '}%')
+			else:
+				cards = np.array(r'\scorecard{' + curr_group['Name'].map(str) + '}{' + (curr_group['index'] + 1).map(str) + '}{' + event_dict[i][0] + '}{' + cutoffs[count] + '}{1}{' + curr_group[i] + '}%')
+			count += 1
+			np.savetxt(f, cards, fmt = '%s')
+			f.write('\pagereset\n')
+	f.close()
+
+
+	#% \scorecard[EVENT FLAG (any nonempty string will create a score card with only three times)]{NAME}{CUBECOMPS ID}{EVENT}{CUTOFF}{ROUND}{GROUP}%
+	#\scorecard{Brady Metherall}{45}{5$\times$5$\times$5}{2:00}{1}{3}%
+
+	#tex_groups = np.array(r'\groups{' + df['Name'].map(str) + '}{')
+	#wca_groups = np.array(df['Name'].map(str) + ' |')
+	#wca_header = np.array(['Name |', ' --- |'])
+	#for i in list(df)[2:]:
+	#	tex_groups += event_dict[i][0] + ' & ' + df[i].map(str) + ' \\\ '
+	#	wca_groups += ' ' + df[i].map(str) + ' |'
+	#	#wca_header += np.array([' ' + event_dict[i][1] + ' |', ' :---: |'])
+	#	wca_header = np.core.defchararray.add(wca_header, [' ' + event_dict[i][1] + ' |', ' :---: |']) # There's got to be an easier way
+	#tex_groups += '}%' # Close the bracket in the string array
+	## Write groups to files
+	#np.savetxt(tex_f, tex_groups, fmt = '%s')
+	#np.savetxt(wca_f, np.hstack((wca_header, wca_groups)), fmt = '%s')
+	#df.to_csv(csv_f, index = False)
+
+
 
 # Dictionaries to translate event ID to event name
 # First element: LaTeX. Second element: plain text.
@@ -94,27 +129,14 @@ data = pd.read_csv(comp, delimiter = ',', keep_default_na = False)
 s_data = data.sort_values(by = ['Name']).copy()
 s_data.reset_index(inplace = True)
 
-
-write_nametags(s_data)
-
-
-
-
-
-#group_df = s_data[['Name', 'WCA ID']].copy()
-
+#write_nametags(s_data)
 group_df = make_groups(s_data)
-write_groups(group_df)
+#write_groups(group_df)
 
-#print group(s_data[['Name', '777']])
+wca_df = pd.read_html('https://www.worldcubeassociation.org/competitions/Cubinginthe6ix2019#competition-events', keep_default_na = False)[1]
 
+write_scorecards(group_df, get_cutoffs(wca_df))
 
-
-#group_df.to_csv('test.csv', index = False)
-
-#wca_df = pd.read_html('https://www.worldcubeassociation.org/competitions/Cubinginthe6ix2019#competition-events', keep_default_na = False)[1]
-
-#print get_cutoffs(wca_df)
 
 #% \scorecard[EVENT FLAG (any nonempty string will create a score card with only three times)]{NAME}{CUBECOMPS ID}{EVENT}{CUTOFF}{ROUND}{GROUP}%
 #\scorecard{Brady Metherall}{45}{5$\times$5$\times$5}{2:00}{1}{3}%
