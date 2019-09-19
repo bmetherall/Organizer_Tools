@@ -153,7 +153,7 @@
 		\node at (34.5mm,\top+35mm) {\strut\footnotesize Name}; % Competitor name
 		% Populate data
 		\node[centre] at (27mm,\top+22.5mm) {\strut\Large #2}; % Competitor name
-		\node[centre] at (17mm,\top+22.5mm) {\strut\Large #3}; % Cubecomps ID
+		\node[centre, anchor=south] at (22mm,\top+22.5mm) {\strut\Large #3}; % Cubecomps ID
 		\node[centre] at (17mm,\top+5mm) {\strut\Large #4}; % Event name
 		\node[centre] at (77mm,\top+5mm) {\strut\Large #6}; % Round number
 		\node[centre] at (87mm,\top+5mm) {\strut\Large #7}; % Group number
