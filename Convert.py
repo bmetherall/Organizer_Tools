@@ -58,7 +58,14 @@ def get_cutoffs(df):
 	cutoffs.replace(np.nan, '', inplace = True) # There's probably a better way for this too
 	return np.array(clean_cutoff(cutoffs['Cutoff']))
 
-def write_scorecards(df, cutoffs, f_name = 'Cards.tex'):
+def get_rounds(df):
+	rounds = df[['Event', 'Proceed']].copy()
+	rounds = rounds.replace({'Top ': ''}, regex = True)
+	rounds = rounds.replace({' advance to next round': ''}, regex = True)
+	return rounds
+
+def write_scorecards(df, cutoffs, rounds, f_name = 'Cards.tex'):
+	# Delete file
 	f = open(f_name, 'wb')
 	f.close()
 	f = open(f_name, 'ab')
@@ -74,27 +81,24 @@ def write_scorecards(df, cutoffs, f_name = 'Cards.tex'):
 			count += 1
 			np.savetxt(f, cards, fmt = '%s')
 			f.write('\pagereset\n')
+	# Blank cards for subsequent rounds
+	count = 0
+	rounds['Proceed'].replace('', 0, inplace = True)
+	rounds['Proceed'] = rounds['Proceed'].astype(int)
+
+	for i in range(len(rounds)):
+		if rounds.iloc[i]['Event'] != '' and rounds.iloc[i]['Proceed'] > 0:
+			r_num = 2
+		elif rounds.iloc[i]['Event'] == '' and rounds.iloc[i]['Proceed'] > 0:
+			r_num += 1
+			f.write('\pagereset\n')
+		elif rounds.iloc[i]['Event'] == '' and rounds.iloc[i]['Proceed'] == 0:
+			count += 1
+			f.write('\pagereset\n')
+
+		for j in range(int(rounds.iloc[i]['Proceed'])):
+			f.write(r'\scorecard{}{}{' + event_dict[list(df)[count+2]][0] + '}{}{' + str(r_num) + '}{}%\n')
 	f.close()
-
-
-	#% \scorecard[EVENT FLAG (any nonempty string will create a score card with only three times)]{NAME}{CUBECOMPS ID}{EVENT}{CUTOFF}{ROUND}{GROUP}%
-	#\scorecard{Brady Metherall}{45}{5$\times$5$\times$5}{2:00}{1}{3}%
-
-	#tex_groups = np.array(r'\groups{' + df['Name'].map(str) + '}{')
-	#wca_groups = np.array(df['Name'].map(str) + ' |')
-	#wca_header = np.array(['Name |', ' --- |'])
-	#for i in list(df)[2:]:
-	#	tex_groups += event_dict[i][0] + ' & ' + df[i].map(str) + ' \\\ '
-	#	wca_groups += ' ' + df[i].map(str) + ' |'
-	#	#wca_header += np.array([' ' + event_dict[i][1] + ' |', ' :---: |'])
-	#	wca_header = np.core.defchararray.add(wca_header, [' ' + event_dict[i][1] + ' |', ' :---: |']) # There's got to be an easier way
-	#tex_groups += '}%' # Close the bracket in the string array
-	## Write groups to files
-	#np.savetxt(tex_f, tex_groups, fmt = '%s')
-	#np.savetxt(wca_f, np.hstack((wca_header, wca_groups)), fmt = '%s')
-	#df.to_csv(csv_f, index = False)
-
-
 
 # Dictionaries to translate event ID to event name
 # First element: LaTeX. Second element: plain text.
@@ -135,11 +139,8 @@ group_df = make_groups(s_data)
 
 wca_df = pd.read_html('https://www.worldcubeassociation.org/competitions/Cubinginthe6ix2019#competition-events', keep_default_na = False)[1]
 
-write_scorecards(group_df, get_cutoffs(wca_df))
+write_scorecards(group_df, get_cutoffs(wca_df), get_rounds(wca_df))
 
-
-#% \scorecard[EVENT FLAG (any nonempty string will create a score card with only three times)]{NAME}{CUBECOMPS ID}{EVENT}{CUTOFF}{ROUND}{GROUP}%
-#\scorecard{Brady Metherall}{45}{5$\times$5$\times$5}{2:00}{1}{3}%
 
 
 
