@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import sys
 
 def write_nametags(df, f_name = 'NameTags.tex'):
 	# Write the data for the name tags formatted for the scorecard class
@@ -123,23 +124,29 @@ event_dict = {
 	'555bf': ['5$\\times$5 Blindfolded', '5x5 Blindfolded']
 }
 
-# Registration file
-comp = 'Comp2019-registration.csv'
+if len(sys.argv) == 1:
+	print 'Error: Must supply competition name'
+else:
+	# Get comp name from command line
+	comp = sys.argv[1]
 
-# Read data into a Pandas DataFrame
-data = pd.read_csv(comp, delimiter = ',', keep_default_na = False)
+	# Registration file
+	comp_file = comp + '-registration.csv'
 
-# Save a copy of the DataFrame sorted by name
-s_data = data.sort_values(by = ['Name']).copy()
-s_data.reset_index(inplace = True)
+	# Read data into a Pandas DataFrame
+	data = pd.read_csv(comp_file, delimiter = ',', keep_default_na = False)
 
-#write_nametags(s_data)
-group_df = make_groups(s_data)
-#write_groups(group_df)
+	# Save a copy of the DataFrame sorted by name
+	s_data = data.sort_values(by = ['Name']).copy()
+	s_data.reset_index(inplace = True)
 
-wca_df = pd.read_html('https://www.worldcubeassociation.org/competitions/Cubinginthe6ix2019#competition-events', keep_default_na = False)[1]
+	#write_nametags(s_data)
+	group_df = make_groups(s_data)
+	#write_groups(group_df)
 
-write_scorecards(group_df, get_cutoffs(wca_df), get_rounds(wca_df))
+	wca_df = pd.read_html('https://www.worldcubeassociation.org/competitions/' + comp + '#competition-events', keep_default_na = False)[1]
+
+	write_scorecards(group_df, get_cutoffs(wca_df), get_rounds(wca_df))
 
 
 
