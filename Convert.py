@@ -71,8 +71,8 @@ def write_scorecards(df, cutoffs, rounds, f_name = 'Cards.tex'):
 	f.close()
 	f = open(f_name, 'ab')
 	count = 0
-	for i in list(df)[2:]:
-		if i != '333fm':
+	for i in list(df)[2:]: # Loop over events
+		if i != '333fm': # Don't create scorecards for FMC
 			curr_group = df[df.iloc[:, count + 2] != ''].copy()
 			curr_group.sort_values(by = [i, 'Name'], inplace = True)
 			if i in ['666', '777', '333bf', '333mbf', '444bf', '555bf']:
@@ -104,24 +104,24 @@ def write_scorecards(df, cutoffs, rounds, f_name = 'Cards.tex'):
 # Dictionaries to translate event ID to event name
 # First element: LaTeX. Second element: plain text.
 event_dict = {
-	'222': ['2$\\times$2 Cube', '2x2 Cube'],
-	'333': ['3$\\times$3 Cube', '3x3 Cube'],
-	'444': ['4$\\times$4 Cube', '4x4 Cube'],
-	'555': ['5$\\times$5 Cube', '5x5 Cube'],
-	'666': ['6$\\times$6 Cube', '6x6 Cube'],
-	'777': ['7$\\times$7 Cube', '7x7 Cube'],
-	'333bf': ['3$\\times$3 Blindfolded', '3x3 Blindfolded'],
-	'333oh': ['3$\\times$3 One-Handed', '3x3 One-Handed'],
-	'333fm': ['3$\\times$3 Fewest Moves', '3x3 Fewest Moves'],
-	'333mbf': ['3$\\times$3 Multi-Blindfolded', '3x3 Multi-Blindfolded'],
-	'333ft': ['3$\\times$3 with Feet', '3x3 with Feet'],
+	'222': ['2$\\times$2$\\times$2 Cube', '2x2x2 Cube'],
+	'333': ['3$\\times$3$\\times$3 Cube', '3x3x3 Cube'],
+	'444': ['4$\\times$4$\\times$4 Cube', '4x4x4 Cube'],
+	'555': ['5$\\times$5$\\times$5 Cube', '5x5x5 Cube'],
+	'666': ['6$\\times$6$\\times$6 Cube', '6x6x6 Cube'],
+	'777': ['7$\\times$7$\\times$7 Cube', '7x7x7 Cube'],
+	'333bf': ['3$\\times$3$\\times$3 Blindfolded', '3x3x3 Blindfolded'],
+	'333oh': ['3$\\times$3$\\times$3 One-Handed', '3x3x3 One-Handed'],
+	'333fm': ['3$\\times$3$\\times$3 Fewest Moves', '3x3x3 Fewest Moves'],
+	'333mbf': ['3$\\times$3$\\times$3 Multi-Blindfolded', '3x3x3 Multi-Blindfolded'],
+	'333ft': ['3$\\times$33$\\times$ with Feet', '3x3x3 with Feet'],
 	'minx': ['Megaminx', 'Megaminx'],
 	'clock': ['Clock', 'Clock'],
 	'pyram': ['Pyraminx', 'Pyraminx'],
 	'skewb': ['Skewb', 'Skewb'],
 	'sq1': ['Square-1', 'Square-1'],
-	'444bf': ['4$\\times$4 Blindfolded', '4x4 Blindfolded'],
-	'555bf': ['5$\\times$5 Blindfolded', '5x5 Blindfolded']
+	'444bf': ['4$\\times$4$\\times$4 Blindfolded', '4x4x4 Blindfolded'],
+	'555bf': ['5$\\times$5$\\times$5 Blindfolded', '5x5x5 Blindfolded']
 }
 
 if len(sys.argv) == 1:
@@ -140,33 +140,17 @@ else:
 	s_data = data.sort_values(by = ['Name']).copy()
 	s_data.reset_index(inplace = True)
 
-	#write_nametags(s_data)
+	print 'Creating name tags...'
+	write_nametags(s_data)
+	print 'Done!\n'
+	
+	print 'Creating groups...'
 	group_df = make_groups(s_data)
-	#write_groups(group_df)
+	write_groups(group_df)
+	print 'Done!\n'
 
+	print 'Creating scorecards...'
 	wca_df = pd.read_html('https://www.worldcubeassociation.org/competitions/' + comp + '#competition-events', keep_default_na = False)[1]
-
 	write_scorecards(group_df, get_cutoffs(wca_df), get_rounds(wca_df))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	print 'Done!'
 
