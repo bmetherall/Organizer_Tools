@@ -1,3 +1,4 @@
+from __future__ import print_function
 import numpy as np
 import pandas as pd
 import sys
@@ -67,9 +68,9 @@ def get_rounds(df):
 
 def write_scorecards(df, cutoffs, rounds, f_name = 'Cards.tex'):
 	# Delete file
-	f = open(f_name, 'wb')
+	f = open(f_name, 'w')
 	f.close()
-	f = open(f_name, 'ab')
+	f = open(f_name, 'a')
 	count = 0
 	for i in list(df)[2:]: # Loop over events
 		if i != '333fm': # Don't create scorecards for FMC
@@ -125,7 +126,7 @@ event_dict = {
 }
 
 if len(sys.argv) == 1:
-	print 'Error: Must supply competition name'
+	print('Error: Must supply competition name')
 else:
 	# Get comp name from command line
 	comp = sys.argv[1]
@@ -140,17 +141,17 @@ else:
 	s_data = data.sort_values(by = ['Name']).copy()
 	s_data.reset_index(inplace = True)
 
-	print 'Creating name tags...'
+	print('Creating name tags...')
 	write_nametags(s_data)
-	print 'Done!\n'
+	print('Done!\n')
 	
-	print 'Creating groups...'
+	print('Creating groups...')
 	group_df = make_groups(s_data)
 	write_groups(group_df)
-	print 'Done!\n'
+	print('Done!\n')
 
-	print 'Creating scorecards...'
+	print('Creating scorecards...')
 	wca_df = pd.read_html('https://www.worldcubeassociation.org/competitions/' + comp + '#competition-events', keep_default_na = False)[1]
 	write_scorecards(group_df, get_cutoffs(wca_df), get_rounds(wca_df))
-	print 'Done!'
+	print('Done!')
 
