@@ -2,3 +2,4 @@
 *.gz
 *.aux
 */Default.tex
+.ipynb_checkpoints/
