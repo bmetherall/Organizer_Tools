@@ -20,7 +20,7 @@ def get_wcif(comp):
 	# If response code is 200 everything good, otherwise something bad
 	if WCIF.status_code == 200:
 		print('Success!')
-		return WCIF = WCIF.json()
+		return WCIF.json()
 	else:
 		print('Response Error!')
 		exit()
