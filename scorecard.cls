@@ -19,6 +19,7 @@
 \newcommand*{\crosssize}[1]{\def\@crosssize{#1}}
 \newcommand*{\comp}[1]{\def\@comp{#1}}
 \newcommand*{\url}[1]{\def\@url{#1}}
+\newcommand*{\events}[1]{\def\@events{#1}}
 
 % Default parameters
 \tagwidth{85.7mm}
@@ -80,7 +81,7 @@
 
 		% Place details
 		\node at (\@tagwidth/2,50mm) {\bfseries \Large \@comp}; % Competition name
-		\node at (\@tagwidth/2,36mm) {\img{./Icons/333} \img{./Icons/444} \img{./Icons/666} \img{./Icons/777} \img{./Icons/333bf}}; % Event images
+		\node at (\@tagwidth/2,36mm) {\@events}; % Event images
 		\node at (\@tagwidth/2,22mm) {\bfseries \Large #1}; % Competitor's name
 		\node at (\@tagwidth/2,14mm) {\large #2}; % Role
 		\node at (\@tagwidth/2,6mm) {\small #3}; % WCAID
