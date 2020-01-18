@@ -7,9 +7,9 @@ class Person:
         self.wcaid = wcaid
         self.role = role
         self.groups = [''] * num_events
-        
+
     @staticmethod
-    def build_persons(WCIF):
+    def get_persons(WCIF):
         '''Builds an array of competitors from WCIF data'''
         lst = []
         i = 0 # Counter

@@ -1,4 +1,21 @@
 class Competition:
+	#############
+	# Name Tags #
+	#############
+    def write_nametags(self, f_name = None, num_blank = 0):
+        if f_name == None:
+            f_name = self.id + '-Tags.tex'
+        self.competitors.sort(key=lambda i: i.name) # Sort by name
+        f = open(f_name, 'w')
+        for pers in self.competitors:
+            f.write('\\nametag{%s}{%s}{%s}%%\n' % (pers.name, pers.role.upper(), pers.wcaid))
+        for i in range(num_blank): # Include blank nametags for day-of registrations
+            f.write('\\nametag{}{COMPETITOR}{}%\n')
+        f.close()
+
+	##########
+	# Groups #
+	##########
     def event_group(self, eventid, index, g_size = 16):
         # Extracts persons competing in eventid
         competing = [i for i in self.competitors if eventid in i.events]
@@ -19,17 +36,6 @@ class Competition:
     def group(self):
         for i in range(len(self.events)):
             self.event_group(self.events[i], i)
-
-    def write_nametags(self, f_name = None, num_blank = 0):
-        if f_name == None:
-            f_name = self.id + '-Tags.tex'
-        self.competitors.sort(key=lambda i: i.name) # Sort by name
-        f = open(f_name, 'w')
-        for pers in self.competitors:
-            f.write('\\nametag{%s}{%s}{%s}%%\n' % (pers.name, pers.role.upper(), pers.wcaid))
-        for i in range(num_blank): # Include blank nametags for day-of registrations
-            f.write('\\nametag{}{COMPETITOR}{}%\n')
-        f.close()
 
     def write_tex_groups(self, f_name = None):
         if f_name == None:
@@ -61,55 +67,9 @@ class Competition:
             f.write('\n')
         f.close()
 
-    @staticmethod
-    def centi2min(centi):
-        '''Converts a time in centiseconds to minute:second format'''
-        minute = int(np.floor(centi / 6000)) # Compute number of minutes
-        sec = int(np.ceil((centi - 6000 * minute) / 100)) # Compute remainder
-        return str(minute) + ':' + str(sec).zfill(2) # Format string (zfill zero pads)
-
-    @staticmethod
-    def build_events(WCIF):
-        '''Build a list of events held at the competition'''
-        lst = [None] * len(WCIF['events'])
-        for i in range(len(WCIF['events'])):
-            lst[i] = WCIF['events'][i]['id']
-        return lst
-
-    @staticmethod
-    def build_cutoffs(WCIF):
-        '''Build a list of cutoffs for the competition. Note: Assumes cutoffs only in the first round'''
-        lst = [None] * len(WCIF['events'])
-        for i in range(len(WCIF['events'])):
-            if WCIF['events'][i]['rounds'][0]['cutoff'] == None:
-                lst[i] = ''
-            else:
-                lst[i] = Competition.centi2min(WCIF['events'][i]['rounds'][0]['cutoff']['attemptResult'])
-        return lst
-
-    @staticmethod
-    def build_limits(WCIF):
-        '''Build a list of time limits for the competition'''
-        lst = [None] * len(WCIF['events'])
-        for i in range(len(WCIF['events'])):
-            if WCIF['events'][i]['rounds'][0]['cutoff'] == None:
-                lst[i] = ''
-            else:
-                lst[i] = Competition.centi2min(WCIF['events'][i]['rounds'][0]['timeLimit']['centiseconds'])
-        return lst
-
-    @staticmethod
-    def build_rounds(WCIF):
-        '''Build a list of additional rounds for the competition'''
-        lst = [[] for i in range(len(WCIF['events']))]
-        for i in range(len(WCIF['events'])):
-            if WCIF['events'][i]['rounds'][0]['advancementCondition'] != None:
-                for j in range(len(WCIF['events'][i]['rounds']) - 1):
-                    lst[i].append(WCIF['events'][i]['rounds'][j]['advancementCondition']['level'])
-        return lst
-
-
-
+	##############
+	# Scorecards #
+	##############
     def write_scorecards(self, f_name = None, num_blank = 0):
         if f_name == None:
             f_name = self.id + '-Cards.tex'
@@ -150,6 +110,9 @@ class Competition:
 
         f.close()
 
+	#######
+	# TeX #
+	#######
     def write_tex(self, f_name = None, url = '', flag = [0, 0, 0]):
         if f_name == None:
             f_name = self.id + '.tex'
@@ -174,12 +137,68 @@ class Competition:
         f.write('\end{document}')
         f.close()
 
+	#############
+	# Functions #
+	#############
+    @staticmethod
+    def centi2min(centi):
+        '''Converts a time in centiseconds to minute:second format'''
+        minute = int(np.floor(centi / 6000)) # Compute number of minutes
+        sec = int(np.ceil((centi - 6000 * minute) / 100)) # Compute remainder
+        return str(minute) + ':' + str(sec).zfill(2) # Format string (zfill zero pads)
+
+	###########
+	# Getters #
+	###########
+	@staticmethod
+    def get_events(WCIF):
+        '''Build a list of events held at the competition'''
+        lst = [None] * len(WCIF['events'])
+        for i in range(len(WCIF['events'])):
+            lst[i] = WCIF['events'][i]['id']
+        return lst
+
+    @staticmethod
+    def get_cutoffs(WCIF):
+        '''Build a list of cutoffs for the competition. Note: Assumes cutoffs only in the first round'''
+        lst = [None] * len(WCIF['events'])
+        for i in range(len(WCIF['events'])):
+            if WCIF['events'][i]['rounds'][0]['cutoff'] == None:
+                lst[i] = ''
+            else:
+                lst[i] = Competition.centi2min(WCIF['events'][i]['rounds'][0]['cutoff']['attemptResult'])
+        return lst
+
+    @staticmethod
+    def get_limits(WCIF):
+        '''Build a list of time limits for the competition'''
+        lst = [None] * len(WCIF['events'])
+        for i in range(len(WCIF['events'])):
+            if WCIF['events'][i]['rounds'][0]['cutoff'] == None:
+                lst[i] = ''
+            else:
+                lst[i] = Competition.centi2min(WCIF['events'][i]['rounds'][0]['timeLimit']['centiseconds'])
+        return lst
+
+    @staticmethod
+    def get_rounds(WCIF):
+        '''Build a list of additional rounds for the competition'''
+        lst = [[] for i in range(len(WCIF['events']))]
+        for i in range(len(WCIF['events'])):
+            if WCIF['events'][i]['rounds'][0]['advancementCondition'] != None:
+                for j in range(len(WCIF['events'][i]['rounds']) - 1):
+                    lst[i].append(WCIF['events'][i]['rounds'][j]['advancementCondition']['level'])
+        return lst
+
+	########
+	# init #
+	########
     def __init__(self, WCIF):
         '''Competition constructor'''
         self.name = WCIF['name']
         self.id = WCIF['id']
-        self.events = self.build_events(WCIF)
-        self.cutoffs = self.build_cutoffs(WCIF)
-        self.limits = self.build_limits(WCIF)
-        self.rounds = self.build_rounds(WCIF)
-        self.competitors = Person.build_persons(WCIF)
+        self.events = self.get_events(WCIF)
+        self.cutoffs = self.get_cutoffs(WCIF)
+        self.limits = self.get_limits(WCIF)
+        self.rounds = self.get_rounds(WCIF)
+        self.competitors = Person.get_persons(WCIF)
