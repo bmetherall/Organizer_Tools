@@ -1,13 +1,14 @@
-from __future__ import print_function
-import numpy as np
-import pandas as pd
-import sys
 import requests
+import numpy as np
+import random
+
+import Classes.Person
+import Classes.Competition
 
 def get_ans():
-	'''Asks user for input. If the user types yes true is returned'''
+	'''Asks user for input. If the user types 'yes', true is returned'''
 	ans = input()
-	if ans.lower == 'y' or ans.lower == 'yes' or ans == '1':
+	if ans.lower() == 'y' or ans.lower() == 'yes' or ans.lower() == '1':
 		return True
 	else:
 		return False
@@ -25,54 +26,42 @@ def get_wcif(comp):
 		print('Response Error!')
 		exit()
 
+
+
 # Get comp name from user
 print('Enter competition ID:')
 #comp = input()
 comp = 'Cubinginthe6ix2019'
-#comp_file = comp + '-registration.csv'
-
+#comp = 'NA2020'
 
 WCIF = get_wcif(comp)
 
 
+comp = Classes.Competition.Competition(WCIF)
 
+flag = [0, 0, 0]
 
-
-print('Would you like to create nametags? (y/n)')
+print('Would you like to create name tags?')
 if get_ans():
-	print('yes')
-	# make nametags
+	comp.write_nametags()
+	flag[0] = 1
 
-print('Would you like to create groups? (y/n)')
+print('Would you like to create groups?')
 if get_ans():
-	print('yes')
-	# make groups
+	comp.group()
+	comp.write_tex_groups()
+	flag[1] = 1
 
-print('Would you like to create scorecards? (y/n)')
+	print('Would you like to export groups for the WCA?')
+	if get_ans():
+		comp.write_wca_groups()
+
+print('Would you like to create scorecards?')
 if get_ans():
-	print('yes')
-	# make scorecards
+	comp.write_scorecards()
+	flag[2] = 1
 
+print('What is the URL of the live results? (If none, leave blank)')
+url = input()
 
-
-
-# # Read data into a Pandas DataFrame
-# data = pd.read_csv(comp_file, delimiter = ',', keep_default_na = False)
-#
-# # Save a copy of the DataFrame sorted by name
-# s_data = data.sort_values(by = ['Name']).copy()
-# s_data.reset_index(inplace = True)
-#
-# print('Creating name tags...')
-# write_nametags(s_data)
-# print('Done!\n')
-#
-# print('Creating groups...')
-# group_df = make_groups(s_data)
-# write_groups(group_df)
-# print('Done!\n')
-#
-# print('Creating scorecards...')
-# wca_df = pd.read_html('https://www.worldcubeassociation.org/competitions/' + comp + '#competition-events', keep_default_na = False)[1]
-# write_scorecards(group_df, get_cutoffs(wca_df), get_rounds(wca_df))
-# print('Done!')
+comp.write_tex(url = url, flag = flag)
