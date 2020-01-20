@@ -1,4 +1,33 @@
+import numpy
+import random
+import Classes.Person
+
 class Competition:
+	####################
+	# Event Dictionary #
+	####################
+
+	# First element: LaTeX. Second element: plain text.
+	event_dict = {
+		'222': ['2$\\times$2$\\times$2 Cube', '2x2x2 Cube'],
+		'333': ['3$\\times$3$\\times$3 Cube', '3x3x3 Cube'],
+		'444': ['4$\\times$4$\\times$4 Cube', '4x4x4 Cube'],
+		'555': ['5$\\times$5$\\times$5 Cube', '5x5x5 Cube'],
+		'666': ['6$\\times$6$\\times$6 Cube', '6x6x6 Cube'],
+		'777': ['7$\\times$7$\\times$7 Cube', '7x7x7 Cube'],
+		'333bf': ['3$\\times$3$\\times$3 Blindfolded', '3x3x3 Blindfolded'],
+		'333oh': ['3$\\times$3$\\times$3 One-Handed', '3x3x3 One-Handed'],
+		'333fm': ['3$\\times$3$\\times$3 Fewest Moves', '3x3x3 Fewest Moves'],
+		'333mbf': ['3$\\times$3$\\times$3 Multi-Blindfolded', '3x3x3 Multi-Blindfolded'],
+		'minx': ['Megaminx', 'Megaminx'],
+		'clock': ['Clock', 'Clock'],
+		'pyram': ['Pyraminx', 'Pyraminx'],
+		'skewb': ['Skewb', 'Skewb'],
+		'sq1': ['Square-1', 'Square-1'],
+		'444bf': ['4$\\times$4$\\times$4 Blindfolded', '4x4x4 Blindfolded'],
+		'555bf': ['5$\\times$5$\\times$5 Blindfolded', '5x5x5 Blindfolded']
+	}
+
 	#############
 	# Name Tags #
 	#############
@@ -22,7 +51,7 @@ class Competition:
 		random.shuffle(competing) # Randomized groups
 
 		N = len(competing) # Number of competitors in event
-		num_g = int(np.round(N / float(g_size))) # Number of groups
+		num_g = int(numpy.round(N / float(g_size))) # Number of groups
 
 		count = 0
 		for pers in competing:
@@ -45,7 +74,7 @@ class Competition:
 		for pers in self.competitors:
 			f.write('\\groups{%s}{' % (pers.name))
 			for i in range(len(self.events)):
-				f.write('%s & %s \\\\ ' % (event_dict[self.events[i]][0], pers.groups[i]))
+				f.write('%s & %s \\\\ ' % (self.event_dict[self.events[i]][0], pers.groups[i]))
 			f.write('}% \n')
 		f.close()
 
@@ -57,7 +86,7 @@ class Competition:
 		# Header
 		f.write('| Name |')
 		for i in self.events:
-			f.write(' %s |' % (event_dict[i][1]))
+			f.write(' %s |' % (self.event_dict[i][1]))
 		f.write('\n|' + ' --- |' * (1 + len(self.events)) + '\n')
 		# Groups
 		for pers in self.competitors:
@@ -85,7 +114,7 @@ class Competition:
 						f.write('\scorecard[1]')
 					else:
 						f.write('\scorecard')
-					f.write('{%s}{%s}{%s}{%s}{1}{%s}%%\n' % (pers.name, str(pers.id), event_dict[event][0], self.cutoffs[count], pers.groups[count]))
+					f.write('{%s}{%s}{%s}{%s}{1}{%s}%%\n' % (pers.name, str(pers.id), self.event_dict[event][0], self.cutoffs[count], pers.groups[count]))
 			count += 1
 			f.write('\pagereset\n')
 
@@ -99,7 +128,7 @@ class Competition:
 							f.write('\scorecard[1]')
 						else:
 							f.write('\scorecard')
-						f.write('{}{}{%s}{}{%s}{}%%\n' % (event_dict[event][0], str(i + 2)))
+						f.write('{}{}{%s}{}{%s}{}%%\n' % (self.event_dict[event][0], str(i + 2)))
 					f.write('\pagereset\n')
 				count += 1
 
@@ -143,8 +172,8 @@ class Competition:
 	@staticmethod
 	def centi2min(centi):
 		'''Converts a time in centiseconds to minute:second format'''
-		minute = int(np.floor(centi / 6000)) # Compute number of minutes
-		sec = int(np.ceil((centi - 6000 * minute) / 100)) # Compute remainder
+		minute = int(numpy.floor(centi / 6000)) # Compute number of minutes
+		sec = int(numpy.ceil((centi - 6000 * minute) / 100)) # Compute remainder
 		return str(minute) + ':' + str(sec).zfill(2) # Format string (zfill zero pads)
 
 	###########
@@ -201,4 +230,4 @@ class Competition:
 		self.cutoffs = self.get_cutoffs(WCIF)
 		self.limits = self.get_limits(WCIF)
 		self.rounds = self.get_rounds(WCIF)
-		self.competitors = Person.get_persons(WCIF)
+		self.competitors = Classes.Person.Person.get_persons(WCIF)
