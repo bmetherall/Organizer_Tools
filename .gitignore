@@ -3,3 +3,4 @@
 *.aux
 */Default.tex
 .ipynb_checkpoints/
+Classes/__pycache__/
