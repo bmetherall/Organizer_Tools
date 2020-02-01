@@ -78,6 +78,18 @@ class Competition:
 			f.write('}% \n')
 		f.close()
 
+	def write_csv_groups(self, f_name = None):
+		if f_name == None:
+			f_name = self.id + '-Groups.csv'
+		self.competitors.sort(key = lambda i: i.name) # Sort by name
+		f = open(f_name, 'w')
+		for pers in self.competitors:
+			f.write(pers.name)
+			for i in range(len(self.events)):
+				f.write(',%s' % (pers.groups[i]))
+			f.write('\n')
+		f.close()
+
 	def write_wca_groups(self, f_name = None):
 		if f_name == None:
 			f_name = self.id + '-WCA.md'
