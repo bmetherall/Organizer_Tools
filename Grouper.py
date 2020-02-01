@@ -26,17 +26,11 @@ def get_wcif(comp):
 		print('Response Error!')
 		exit()
 
-
-
 # Get comp name from user
 print('Enter competition ID:')
-#comp = input()
-comp = 'Cubinginthe6ix2019'
-#comp = 'NA2020'
-
+comp = input()
+#comp = 'Cubinginthe6ix2019'
 WCIF = get_wcif(comp)
-
-
 comp = Classes.Competition.Competition(WCIF)
 
 flag = [0, 0, 0]
@@ -48,13 +42,18 @@ if get_ans():
 
 print('Would you like to create groups?')
 if get_ans():
-	comp.group()
+	print('Would you like to use the default of 16 competitors per group?')
+	comp.group(choose_size = not get_ans())
 	comp.write_tex_groups()
 	flag[1] = 1
 
-	print('Would you like to export groups for the WCA?')
+	print('Would you like to export the groups for the WCA?')
 	if get_ans():
 		comp.write_wca_groups()
+
+ 	print('Would you like to export the groups to a csv?')
+	if get_ans():
+		comp.write_csv_groups()
 
 print('Would you like to create scorecards?')
 if get_ans():

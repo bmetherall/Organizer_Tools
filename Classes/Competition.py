@@ -45,7 +45,11 @@ class Competition:
 	##########
 	# Groups #
 	##########
-	def event_group(self, eventid, index, g_size = 16):
+	def event_group(self, eventid, index, g_size = 16, choose_size = False):
+		if choose_size:
+			print('Enter target group size for ' + self.event_dict[eventid][1] + ':')
+			g_size = int(input())
+
 		# Extracts persons competing in eventid
 		competing = [i for i in self.competitors if eventid in i.events]
 		random.shuffle(competing) # Randomized groups
@@ -62,9 +66,9 @@ class Competition:
 				pers.groups[index] = str(int(count * num_g / N) + 1) # Record group
 				count += 1
 
-	def group(self):
+	def group(self, choose_size = False):
 		for i in range(len(self.events)):
-			self.event_group(self.events[i], i)
+			self.event_group(self.events[i], i, choose_size = choose_size)
 
 	def write_tex_groups(self, f_name = None):
 		if f_name == None:
