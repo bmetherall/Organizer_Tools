@@ -51,7 +51,7 @@ if get_ans():
 	if get_ans():
 		comp.write_wca_groups()
 
- 	print('Would you like to export the groups to a csv?')
+	print('Would you like to export the groups to a csv?')
 	if get_ans():
 		comp.write_csv_groups()
 
